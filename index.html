@@ -1,0 +1,531 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRILL MASTERS — Haute Gastronomie Indienne</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    colors: {
+                        luxuryBlack: '#0D0D0D',
+                        luxuryGray: '#1A1A1A',
+                        luxurySilver: '#C0C0C0',
+                        warmWhite: '#FBFBFB',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom scrollbar to match the high-end dark aesthetic */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0D0D0D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555555;
+        }
+
+        /* Initial state of elements to be popped up on scroll */
+        .reveal-element {
+            opacity: 0;
+            filter: blur(10px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Directional transform offsets before entering viewport */
+        .reveal-left {
+            transform: translateX(-60px);
+        }
+        .reveal-right {
+            transform: translateX(60px);
+        }
+        .reveal-down {
+            transform: translateY(60px);
+        }
+
+        /* Activated state triggered by JS IntersectionObserver */
+        .reveal-element.active {
+            opacity: 1;
+            transform: translate(0) scale(1);
+            filter: blur(0);
+        }
+
+        /* Subtle glowing separator line */
+        .luxury-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15) 50%, transparent);
+        }
+    </style>
+</head>
+<body class="bg-luxuryBlack text-warmWhite font-sans antialiased overflow-x-hidden selection:bg-white selection:text-black">
+
+    <!-- Top Utility Header: Agency Credit -->
+    <div class="w-full bg-black py-3 border-b border-white/5 px-4 text-center">
+        <span class="text-[9px] uppercase tracking-[0.35em] font-light text-neutral-400">
+            Created by <span class="text-white font-medium hover:text-luxurySilver transition-colors duration-300">KARAN DIGITAL MENU AGENCY</span>
+        </span>
+    </div>
+
+    <!-- Main Luxury Header / Navigation -->
+    <header class="w-full py-12 flex flex-col items-center justify-center border-b border-white/5 space-y-6">
+        <!-- Logo Container - KEPT IN FULL BRILLIANT COLOR AS REQUESTED -->
+        <div class="relative w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden border border-white/15 p-1 bg-neutral-900 shadow-[0_0_35px_rgba(255,255,255,0.05)] transition-transform duration-700 hover:scale-105">
+            <img 
+                id="restaurantLogo"
+                src="https://i.ibb.co/84bMbV7S/Screenshot-20260429-174505-Gallery.jpg" 
+                alt="Grill Masters Logo" 
+                class="w-full h-full object-cover rounded-full brightness-105 contrast-105"
+                onerror="this.style.display='none'; document.getElementById('logoFallback').classList.remove('hidden');"
+            />
+            <!-- Premium Fallback if image link fails -->
+            <div id="logoFallback" class="hidden w-full h-full flex items-center justify-center bg-black text-center p-2 rounded-full">
+                <span class="font-serif italic text-xl tracking-widest text-white">GM</span>
+            </div>
+        </div>
+
+        <!-- Elegant Brand Typography (Black and White Theme) -->
+        <div class="text-center space-y-2 px-4">
+            <h1 class="font-serif text-5xl md:text-7xl font-extralight tracking-[0.15em] text-white">GRILL MASTERS</h1>
+            <p class="text-[10px] md:text-xs tracking-[0.5em] font-light text-neutral-400 uppercase">Haute Gastronomie Indienne & Artisanal Clay Oven</p>
+        </div>
+
+        <div class="luxury-line w-2/3 max-w-md pt-4"></div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="max-w-6xl mx-auto px-6 py-16 md:py-24 space-y-36">
+
+        <!-- SECTION 1: Intro / Hero Statement -->
+        <section class="text-center max-w-3xl mx-auto space-y-8 reveal-element">
+            <span class="text-xs tracking-[0.4em] text-neutral-500 uppercase font-light">Ancestral Flame • Modern Vision</span>
+            <h2 class="font-serif text-4xl md:text-6xl font-light leading-relaxed md:leading-snug text-neutral-100">
+                Honoring centuries of <span class="italic text-white">Indian culinary mastery</span> through the theater of open coal and smoke.
+            </h2>
+            <p class="text-neutral-400 font-light leading-relaxed tracking-wide text-sm md:text-base max-w-2xl mx-auto">
+                At Grill Masters, we deconstruct and elevate the rich tapestry of regional Indian flavors. Combining authentic tandoori discipline with innovative culinary techniques, we deliver a premium, curated feast of fire and spice.
+            </p>
+        </section>
+
+        <!-- SECTION 2: Dynamic Two-Column Showcase (Split Image + Description) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <!-- Left Side: Editorial Art Piece (Black and White Theme) -->
+            <div class="relative group overflow-hidden border border-white/5 reveal-element">
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-all duration-700 z-10"></div>
+                <!-- Abstract Charcoal Grill Representation -->
+                <svg viewBox="0 0 500 500" class="w-full bg-zinc-950 text-white p-12 transition-transform duration-1000 group-hover:scale-105 h-96 md:h-auto">
+                    <circle cx="250" cy="250" r="180" fill="none" stroke="#222" stroke-width="2" />
+                    <!-- Abstract geometric grill lines -->
+                    <line x1="120" y1="200" x2="380" y2="200" stroke="#333" stroke-width="1.5" />
+                    <line x1="100" y1="250" x2="400" y2="250" stroke="#333" stroke-width="1.5" />
+                    <line x1="120" y1="300" x2="380" y2="300" stroke="#333" stroke-width="1.5" />
+                    <line x1="160" y1="350" x2="340" y2="350" stroke="#333" stroke-width="1.5" />
+                    <!-- Minimalist rising smoke shapes -->
+                    <path d="M 220 180 Q 210 140, 230 110" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="5 5" />
+                    <path d="M 250 170 Q 260 130, 240 90" fill="none" stroke="#888" stroke-width="1.5" />
+                    <path d="M 280 185 Q 270 145, 285 115" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="5 5" />
+                    <text x="250" y="440" text-anchor="middle" font-family="Cormorant Garamond" font-size="16" letter-spacing="4" fill="#888" font-style="italic">THE FLAME OF ANCESTORS</text>
+                </svg>
+            </div>
+
+            <!-- Right Side: Exquisite Narrative -->
+            <div class="space-y-6 md:pl-8 reveal-element">
+                <span class="text-xs tracking-[0.3em] text-neutral-500 uppercase font-light">The Spice & Smolder</span>
+                <h3 class="font-serif text-3xl md:text-4xl font-light text-white italic">A Reimagined Legacy</h3>
+                <p class="text-neutral-300 font-light leading-relaxed text-sm md:text-base">
+                    Our tandoors are fueled with custom blends of wild cherry wood and natural coal charcoal, delivering a precise, delicate smokiness. Every secret spice mix is toasted and ground by hand daily, capturing a fleeting brilliance that honors regional artisans across the Indian subcontinent.
+                </p>
+                <div class="pt-4">
+                    <a href="#menu" class="inline-block text-xs uppercase tracking-[0.25em] text-white border-b border-white pb-2 hover:text-neutral-400 hover:border-neutral-400 transition-colors duration-300">
+                        View The Signature Menu
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: The Curated Tasting Menu (Minimalist Editorial Design) -->
+        <section id="menu" class="space-y-16">
+            <div class="text-center space-y-3 reveal-element">
+                <span class="text-xs tracking-[0.4em] text-neutral-500 uppercase font-light">Signature Fire Collection</span>
+                <h3 class="font-serif text-4xl md:text-5xl font-light text-white">Curated Delicacies</h3>
+                <div class="luxury-line w-1/4 mx-auto pt-2"></div>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                
+                <!-- Item 1 -->
+                <div class="border-b border-white/5 pb-6 flex flex-col justify-between space-y-3 reveal-element">
+                    <div class="flex justify-between items-baseline">
+                        <h4 class="font-serif text-xl md:text-2xl font-light tracking-wide text-white">Charcoal Smoked Paneer Tikka</h4>
+                        <span class="text-xs font-light text-neutral-400 tracking-widest">$32</span>
+                    </div>
+                    <p class="text-xs text-neutral-400 font-light leading-relaxed italic pr-12">
+                        Artisanal house-pressed paneer marinated in yellow chili, mustard oil, and yogurt dust, charred over glowing cherry embers.
+                    </p>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="border-b border-white/5 pb-6 flex flex-col justify-between space-y-3 reveal-element">
+                    <div class="flex justify-between items-baseline">
+                        <h4 class="font-serif text-xl md:text-2xl font-light tracking-wide text-white">24-Hour Spiced Lamb Chops</h4>
+                        <span class="text-xs font-light text-neutral-400 tracking-widest">$54</span>
+                    </div>
+                    <p class="text-xs text-neutral-400 font-light leading-relaxed italic pr-12">
+                        Prime French-cut chops marinated in black cardamom, stone flower, and raw papaya paste, seared in the clay hearth.
+                    </p>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="border-b border-white/5 pb-6 flex flex-col justify-between space-y-3 reveal-element">
+                    <div class="flex justify-between items-baseline">
+                        <h4 class="font-serif text-xl md:text-2xl font-light tracking-wide text-white">Kashmiri Saffron Lobster</h4>
+                        <span class="text-xs font-light text-neutral-400 tracking-widest">$68</span>
+                    </div>
+                    <p class="text-xs text-neutral-400 font-light leading-relaxed italic pr-12">
+                        Tandoor-roasted lobster tail basted with saffron-infused butter, roasted mace, and a delicate white poppy seed foam.
+                    </p>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="border-b border-white/5 pb-6 flex flex-col justify-between space-y-3 reveal-element">
+                    <div class="flex justify-between items-baseline">
+                        <h4 class="font-serif text-xl md:text-2xl font-light tracking-wide text-white">Old Delhi Smoked Butter Chicken</h4>
+                        <span class="text-xs font-light text-neutral-400 tracking-widest">$48</span>
+                    </div>
+                    <p class="text-xs text-neutral-400 font-light leading-relaxed italic pr-12">
+                        Pulled tandoori corn-fed chicken, slow-simmered in satin tomato gravy smoked with activated coconut coal.
+                    </p>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="border-b border-white/5 pb-6 flex flex-col justify-between space-y-3 reveal-element">
+                    <div class="flex justify-between items-baseline">
+                        <h4 class="font-serif text-xl md:text-2xl font-light tracking-wide text-white">Black Truffle & Wild Mushroom Biryani</h4>
+                        <span class="text-xs font-light text-neutral-400 tracking-widest">$45</span>
+                    </div>
+                    <p class="text-xs text-neutral-400 font-light leading-relaxed italic pr-12">
+                        Aged premium Basmati rice, slow cooked on "dum" under a flaky pastry seal with foraged mushrooms and fresh black truffle shavings.
+                    </p>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="border-b border-white/5 pb-6 flex flex-col justify-between space-y-3 reveal-element">
+                    <div class="flex justify-between items-baseline">
+                        <h4 class="font-serif text-xl md:text-2xl font-light tracking-wide text-white">Smoked Cardamom Elixir Kulfi</h4>
+                        <span class="text-xs font-light text-neutral-400 tracking-widest">$22</span>
+                    </div>
+                    <p class="text-xs text-neutral-400 font-light leading-relaxed italic pr-12">
+                        Traditional reduction of organic sweet milk, infused with cold-smoked green cardamom and served with silver leaf.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: Indian Heritage Artistry & Philosophy -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <!-- Left Side: Ambience Text -->
+            <div class="space-y-6 md:pr-8 order-2 md:order-1 reveal-element">
+                <span class="text-xs tracking-[0.3em] text-neutral-500 uppercase font-light">The Sacred Ritual</span>
+                <h3 class="font-serif text-3xl md:text-4xl font-light text-white italic">Fire, Earth, and Soul</h3>
+                <p class="text-neutral-300 font-light leading-relaxed text-sm md:text-base">
+                    In ancient Sanskrit scriptures, fire is the divine conduit that purifies and transforms. We carry this sacred element into our modern dining room, crafting an atmosphere where contemporary monochrome architecture pairs with the primal, comforting crackle of glowing embers.
+                </p>
+                <div class="flex items-center space-x-6 text-xs text-neutral-400 font-light tracking-widest">
+                    <span>SEATING: 28 exclusive covers</span>
+                    <span class="h-1 w-1 bg-neutral-600 rounded-full"></span>
+                    <span>Tasting menu only</span>
+                </div>
+            </div>
+
+            <!-- Right Side: Dark Geometric Mandala representation -->
+            <div class="relative overflow-hidden border border-white/5 order-1 md:order-2 reveal-element">
+                <svg viewBox="0 0 500 500" class="w-full bg-zinc-950 text-white p-12 h-96 md:h-auto">
+                    <!-- Abstract Minimalistic Geometric Mandala representation (Black and White Theme) -->
+                    <rect x="40" y="40" width="420" height="420" fill="none" stroke="#222" stroke-width="1"/>
+                    <circle cx="250" cy="250" r="160" fill="none" stroke="#2a2a2a" stroke-width="1.5" />
+                    <circle cx="250" cy="250" r="100" fill="none" stroke="#444" stroke-width="1" />
+                    <!-- Geometric star lines inside mandala structure -->
+                    <polygon points="250,90 290,210 410,250 290,290 250,410 210,290 90,250 210,210" fill="none" stroke="#333" stroke-width="1" />
+                    <circle cx="250" cy="250" r="4" fill="white" />
+                    <text x="250" y="445" text-anchor="middle" font-family="Cormorant Garamond" font-size="15" letter-spacing="4" fill="#888" font-style="italic">GEOMETRY OF INDIA</text>
+                </svg>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Elegant Feedback Portal -->
+        <section class="max-w-xl mx-auto space-y-12 pb-12 reveal-element">
+            <div class="text-center space-y-3">
+                <span class="text-xs tracking-[0.4em] text-neutral-500 uppercase font-light">Guest Relations</span>
+                <h3 class="font-serif text-3xl md:text-4xl font-light text-white">Leave Your Feedback</h3>
+                <p class="text-xs text-neutral-400 tracking-wider">Your thoughts shape our craft. Submitting this form opens your email to transmit directly to our team.</p>
+                <div class="luxury-line w-1/3 mx-auto pt-2"></div>
+            </div>
+
+            <form id="feedbackForm" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Guest Name -->
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="guestName" 
+                            required 
+                            class="peer w-full bg-transparent border-b border-white/20 py-2 focus:border-white focus:outline-none text-sm transition-colors duration-300"
+                            placeholder=" "
+                        />
+                        <label for="guestName" class="absolute left-0 top-2 text-xs tracking-wider text-neutral-500 uppercase duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-white">
+                            Your Name
+                        </label>
+                    </div>
+
+                    <!-- Guest Email -->
+                    <div class="relative">
+                        <input 
+                            type="email" 
+                            id="guestEmail" 
+                            required 
+                            class="peer w-full bg-transparent border-b border-white/20 py-2 focus:border-white focus:outline-none text-sm transition-colors duration-300"
+                            placeholder=" "
+                        />
+                        <label for="guestEmail" class="absolute left-0 top-2 text-xs tracking-wider text-neutral-500 uppercase duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-white">
+                            Your Email
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Custom Luxury Star Rating Selection -->
+                <div class="space-y-2">
+                    <span class="text-xs tracking-wider text-neutral-500 uppercase">Your Experience Rating</span>
+                    <div class="flex items-center space-x-4 pt-2">
+                        <input type="hidden" id="ratingValue" value="5">
+                        <div class="flex space-x-2">
+                            <!-- Star SVGs (Interactive) -->
+                            <button type="button" onclick="setRating(1)" class="rating-star text-white hover:scale-110 transition-transform duration-200">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </button>
+                            <button type="button" onclick="setRating(2)" class="rating-star text-white hover:scale-110 transition-transform duration-200">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </button>
+                            <button type="button" onclick="setRating(3)" class="rating-star text-white hover:scale-110 transition-transform duration-200">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </button>
+                            <button type="button" onclick="setRating(4)" class="rating-star text-white hover:scale-110 transition-transform duration-200">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </button>
+                            <button type="button" onclick="setRating(5)" class="rating-star text-white hover:scale-110 transition-transform duration-200">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </button>
+                        </div>
+                        <span id="ratingDescriptor" class="text-xs font-light text-neutral-400 italic">Exemplary</span>
+                    </div>
+                </div>
+
+                <!-- Guest Feedback Message -->
+                <div class="relative">
+                    <textarea 
+                        id="guestMessage" 
+                        rows="4" 
+                        required 
+                        class="peer w-full bg-transparent border-b border-white/20 py-2 focus:border-white focus:outline-none text-sm transition-colors duration-300 resize-none"
+                        placeholder=" "
+                    ></textarea>
+                    <label for="guestMessage" class="absolute left-0 top-2 text-xs tracking-wider text-neutral-500 uppercase duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-white">
+                        Your Message / Experience Notes
+                    </label>
+                </div>
+
+                <!-- Elegant Premium Action Button -->
+                <div class="flex justify-center pt-4">
+                    <button 
+                        type="submit" 
+                        class="px-10 py-4 bg-white text-black text-xs font-semibold tracking-[0.25em] uppercase hover:bg-neutral-200 active:bg-neutral-300 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-md"
+                    >
+                        Transmit Feedback
+                    </button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-black py-16 border-t border-white/5 mt-24">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0">
+            <!-- Footer brand info -->
+            <div class="text-center md:text-left space-y-2">
+                <span class="font-serif text-2xl tracking-[0.1em] text-white">GRILL MASTERS</span>
+                <p class="text-[9px] tracking-[0.3em] uppercase text-neutral-500">Uncompromising culinary integrity</p>
+            </div>
+
+            <!-- Operational & reservation specifics -->
+            <div class="text-center md:text-right text-xs text-neutral-400 font-light space-y-1">
+                <p>Curated design by <span class="text-white hover:text-neutral-300 transition-colors">Karan Digital Menu Agency</span></p>
+                <p>Support inquiries: <a href="mailto:Karrranverma@gmail.com" class="underline hover:text-white">Karrranverma@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Luxury Confirmation Modal (Avoids system alerts) -->
+    <div id="successModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-500">
+        <div class="bg-luxuryGray border border-white/10 p-10 md:p-14 max-w-md w-full text-center space-y-6 shadow-2xl mx-4 transform scale-95 transition-transform duration-500">
+            <span class="text-xs tracking-[0.35em] text-neutral-500 uppercase block font-light">Transmission Ready</span>
+            <h3 class="font-serif text-3xl font-light text-white italic">Thank You</h3>
+            <p class="text-neutral-400 font-light leading-relaxed text-xs md:text-sm">
+                Your feedback has been curated and structured. We are now invoking your native mail agent to securely route the transmission directly to <strong class="text-white font-medium">Karrranverma@gmail.com</strong>.
+            </p>
+            <div class="luxury-line"></div>
+            <button 
+                onclick="closeModal()" 
+                class="px-8 py-3 bg-white text-black text-[10px] font-bold tracking-widest uppercase hover:bg-neutral-200 transition-colors"
+            >
+                Acknowledge & Send
+            </button>
+        </div>
+    </div>
+
+    <!-- Scroll & Star Logic JS Code -->
+    <script>
+        // 1. Dynamic Pop-up scroll animations setup
+        document.addEventListener("DOMContentLoaded", () => {
+            const revealElements = document.querySelectorAll('.reveal-element');
+            const directions = ['left', 'right', 'down'];
+
+            // Assign RANDOM direction states dynamically to emulate "pop up randomly from left, right, and down"
+            revealElements.forEach(element => {
+                const randomDir = directions[Math.floor(Math.random() * directions.length)];
+                element.classList.add(`reveal-${randomDir}`);
+            });
+
+            // Set up high performance intersection observer to monitor entry
+            const observerOptions = {
+                root: null, // viewport
+                threshold: 0.12, // element must be 12% visible to trigger
+                rootMargin: "0px 0px -50px 0px" // bottom offset to trigger slightly before coming into direct focus
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: Unobserve if we only want it to animate once
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+        });
+
+        // 2. Interactive Premium Star Rating Mechanism
+        const descriptors = {
+            1: "Inadequate",
+            2: "Passable",
+            3: "Accolade-Worthy",
+            4: "Exceptional",
+            5: "Exemplary"
+        };
+
+        function setRating(ratingValue) {
+            document.getElementById('ratingValue').value = ratingValue;
+            const stars = document.querySelectorAll('.rating-star');
+            
+            stars.forEach((star, index) => {
+                if (index < ratingValue) {
+                    star.classList.add('text-white');
+                    star.classList.remove('text-neutral-600');
+                } else {
+                    star.classList.remove('text-white');
+                    star.classList.add('text-neutral-600');
+                }
+            });
+
+            // Update description based on index choice
+            document.getElementById('ratingDescriptor').innerText = descriptors[ratingValue];
+        }
+
+        // Initialize star visual classes on initial load
+        setRating(5);
+
+        // 3. Secure Premium Feedback Submission Routing (Directly to Karrranverma@gmail.com)
+        const feedbackForm = document.getElementById('feedbackForm');
+        let emailPayloadUrl = '';
+
+        feedbackForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('guestName').value;
+            const email = document.getElementById('guestEmail').value;
+            const rating = document.getElementById('ratingValue').value;
+            const ratingWord = descriptors[rating];
+            const message = document.getElementById('guestMessage').value;
+
+            // Assemble beautiful text structure for email output
+            const emailSubject = `Grill Masters - Guest Experience Feedback (${name})`;
+            const emailBody = `HAUTE GASTRONOMIE GUEST TRANSMISSION\n` +
+                              `========================================\n\n` +
+                              `Guest Name: ${name}\n` +
+                              `Guest Email: ${email}\n` +
+                              `Experience Rating: ${rating}/5 (${ratingWord})\n\n` +
+                              `----------------------------------------\n` +
+                              `MESSAGE:\n` +
+                              `"${message}"\n\n` +
+                              `----------------------------------------\n` +
+                              `Attribution: Crafted by Karan Digital Menu Agency`;
+
+            // Prep Mailto Link directly targeting requested recipient
+            emailPayloadUrl = `mailto:Karrranverma@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+            // Show customized confirmation popup
+            showSuccessModal();
+        });
+
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.remove('scale-95');
+            modal.querySelector('div').classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.add('scale-95');
+            modal.querySelector('div').classList.remove('scale-100');
+
+            // Dispatch mail link natively
+            if (emailPayloadUrl) {
+                window.location.href = emailPayloadUrl;
+                emailPayloadUrl = ''; // Clean State
+                feedbackForm.reset(); // Reset form elements
+                setRating(5); // Reset stars
+            }
+        }
+    </script>
+</body>
+</html>
+
+```
